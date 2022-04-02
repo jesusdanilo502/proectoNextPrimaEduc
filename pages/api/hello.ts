@@ -1,13 +1,24 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import type { NextApiRequest, NextApiResponse } from 'next'
+//http://localhost:4000
+import React, { useState } from "react";
+const { PrismaClient } = require("@prisma/client");
 
-type Data = {
-  name: string
-}
 
-export default function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<Data>
-) {
-  res.status(200).json({ name: 'John Doe' })
+
+const prisma = new PrismaClient();
+
+
+
+export async function getStaticProps() {
+  try {
+    const res = await fetch("http://localhost:4000");
+    const data = await res.json();
+    return {
+      props:{
+        data
+      }
+    }
+  } catch (error) {
+    console.log(error);
+  }
 }
